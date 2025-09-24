@@ -1,4 +1,4 @@
-import java.util.Objects;
+//import java.util.Objects;
 
 public class Driver {
 
@@ -22,20 +22,10 @@ public class Driver {
     }
 
     public void useSpecialSkill(RNG rng){
-        if(!eligibleToRace)
-        switch(specialSkill){
-            case "braking":
-            case "cornering":
-                rng.setMinimumValue(1);
-                rng.setMaximumValue(8);
-                return rng.getRandomValue();
-            case "overtaking":
-                if (rng.lapIndex % 3 == 0){
-                    rng.setMinimumValue(10);
-                    rng.setMaximumValue(10);
-                    return rng.getRandomValue();
-                }
-        }
+        int cut_off_time = rng.getRandomValue();
+        accumulatedTime -= cut_off_time;
+        System.out.println("\tDriver  " + this.getName() + " used special skill: " + this.getSpecialSkill() + " and is in advantage for "
+                     + cut_off_time + " s.");
     }
 
     //getters/setters
