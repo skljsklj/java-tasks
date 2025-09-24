@@ -1,0 +1,8 @@
+Juan Manuel Fangio,3,Overtaking
+Fernando Alonso,8,Cornering
+Sebastian Vettel,6,Cornering
+Lewis Hamilton,1,Braking
+Alain Prost,5,Braking
+Michael Schumacher,2,Cornering
+Ayrton Senna,4,Overtaking
+Nico Rosberg,7,Cornering
