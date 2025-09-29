@@ -9,7 +9,8 @@ public class Driver {
     private boolean eligibleToRace;
     private int accumulatedTime;
     private int accumulatedPoints;
-    private boolean wetTyres;
+    private boolean wetTyres; // whether driver has wet tyres mounted
+    private int racesNotDriven; // number of races missed due to unrecoverable fault
 
     public Driver(String name, int ranking, String specialSkill){
         this.name = name;
@@ -19,13 +20,14 @@ public class Driver {
         this.accumulatedTime = 0;
         this.accumulatedPoints = 0;
         this.wetTyres = false;
+        this.racesNotDriven = 0;
     }
 
     public void useSpecialSkill(RNG rng){
         int cut_off_time = rng.getRandomValue();
         accumulatedTime -= cut_off_time;
-        System.out.println("\tDriver  " + this.getName() + " used special skill: " + this.getSpecialSkill() + " and is in advantage for "
-                     + cut_off_time + " s.");
+        System.out.println("\t-> Driver " + this.getName() + " used skill: " + this.getSpecialSkill() +
+                " and gained " + cut_off_time + " s.");
     }
 
     //getters/setters
@@ -43,6 +45,18 @@ public class Driver {
     public void addPoints(int pts) { this.accumulatedPoints += pts; }
     public boolean hasWetTyres() { return wetTyres; }
     public void setWetTyres(boolean wetTyres) { this.wetTyres = wetTyres; }
+    public int getRacesNotDriven() { return racesNotDriven; }
+
+    // convenience aliases used across code
+    public void addToAccumulatedTime(int seconds) { addTime(seconds); }
+    public void setTireChanged(boolean changed) { setWetTyres(changed); }
+    public boolean isTireChanged() { return hasWetTyres(); }
+
+    // when a driver becomes ineligible due to unrecoverable fault, count the missed race
+    public void markUnrecoverableFault() {
+        setEligibleToRace(false);
+        this.racesNotDriven++;
+    }
 
     @Override
     public String toString() {
