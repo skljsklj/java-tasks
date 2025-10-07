@@ -1,0 +1,6 @@
+Kox:555333:student
+Mali:555333:student
+admin:admin:admin
+davidkrizov:555333:student
+majmun:555333:student
+tonimontana:tonimontana:admin

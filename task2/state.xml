@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<state>
+  <students>
+    <student username="Mali">
+      <firstName>Mali</firstName>
+      <lastName>Radojica</lastName>
+      <indexNumber>e2-2019</indexNumber>
+      <jmbg>0101000700011</jmbg>
+    </student>
+    <student username="Kox">
+      <firstName>Luka</firstName>
+      <lastName>Vasic</lastName>
+      <indexNumber>e1-2000</indexNumber>
+      <jmbg>0101000700011</jmbg>
+    </student>
+    <student username="majmun">
+      <firstName>Luka</firstName>
+      <lastName>Urosevic</lastName>
+      <indexNumber>e3-2019</indexNumber>
+      <jmbg>0101000700011</jmbg>
+    </student>
+    <student username="davidkrizov">
+      <firstName>David</firstName>
+      <lastName>Krizov</lastName>
+      <indexNumber>e1-2019</indexNumber>
+      <jmbg>1505999100021</jmbg>
+    </student>
+  </students>
+  <subjects>
+    <subject name="OET">
+      <category maxPoints="25" minRequired="12" name="Terorija 1"/>
+      <category maxPoints="25" minRequired="12" name="Terorija 2"/>
+      <category maxPoints="25" minRequired="12" name="Zadatci 1"/>
+      <category maxPoints="25" minRequired="12" name="Zadatci 2"/>
+    </subject>
+    <subject name="Anal 1">
+      <category maxPoints="10" minRequired="3" name="T1"/>
+      <category maxPoints="20" minRequired="6" name="T2"/>
+      <category maxPoints="10" minRequired="3" name="T3"/>
+      <category maxPoints="10" minRequired="3" name="T4"/>
+      <category maxPoints="10" minRequired="3" name="Z1"/>
+      <category maxPoints="20" minRequired="6" name="Z2"/>
+      <category maxPoints="10" minRequired="3" name="Z3"/>
+      <category maxPoints="10" minRequired="3" name="Z4"/>
+    </subject>
+  </subjects>
+  <enrollments>
+    <enrollment studentUsername="Mali" subjectName="Anal 1">
+      <points>
+        <category name="T4" points="8"/>
+        <category name="Z1" points="5"/>
+        <category name="Z2" points="12"/>
+        <category name="Z3" points="4"/>
+        <category name="Z4" points="10"/>
+        <category name="T1" points="3"/>
+        <category name="T2" points="16"/>
+        <category name="T3" points="6"/>
+      </points>
+    </enrollment>
+    <enrollment studentUsername="Kox" subjectName="OET">
+      <points>
+        <category name="Zadatci 1" points="0"/>
+        <category name="Terorija 1" points="0"/>
+        <category name="Terorija 2" points="0"/>
+        <category name="Zadatci 2" points="0"/>
+      </points>
+    </enrollment>
+  </enrollments>
+</state>
