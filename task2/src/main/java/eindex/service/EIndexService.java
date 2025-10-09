@@ -37,7 +37,7 @@ public class EIndexService {
     public void addStudent(Student s, String password) throws IllegalArgumentException, IOException {
         validateStudent(s);
         if (state.students.containsKey(s.getUsername()))
-            throw new IllegalArgumentException("Student sa datim username već postoji.");
+            throw new IllegalArgumentException("Student sa datim username vec postoji.");
         state.students.put(s.getUsername(), s);
         store.addOrUpdateUser(s.getUsername(), password, Role.STUDENT);
     }
@@ -106,9 +106,9 @@ public class EIndexService {
     // ENROLLMENTS
     public void assignStudentToSubject(String studentUsername, String subjectName) {
         if (!state.students.containsKey(studentUsername))
-            throw new IllegalArgumentException("Nepostojeći student");
+            throw new IllegalArgumentException("Nepostojeci student");
         if (!state.subjects.containsKey(subjectName))
-            throw new IllegalArgumentException("Nepostojeći predmet");
+            throw new IllegalArgumentException("Nepostojeci predmet");
 
         state.enrollments.computeIfAbsent(studentUsername, k -> new HashMap<>())
                 .computeIfAbsent(subjectName, k -> new Enrollment(studentUsername, subjectName));
@@ -116,14 +116,14 @@ public class EIndexService {
 
     public void updatePoints(String studentUsername, String subjectName, Map<String, Integer> updates) {
         Subject subj = getSubject(subjectName);
-        if (subj == null) throw new IllegalArgumentException("Nepostojeći predmet");
+        if (subj == null) throw new IllegalArgumentException("Nepostojeci predmet");
         Map<String, Enrollment> bySubj = state.enrollments.computeIfAbsent(studentUsername, k -> new HashMap<>());
         Enrollment enr = bySubj.computeIfAbsent(subjectName, k -> new Enrollment(studentUsername, subjectName));
         for (Map.Entry<String, Integer> e : updates.entrySet()) {
             String cat = e.getKey();
             Integer pts = e.getValue();
             Category c = subj.findCategory(cat);
-            if (c == null) throw new IllegalArgumentException("Nepostojeća kategorija: " + cat);
+            if (c == null) throw new IllegalArgumentException("Nepostojeca kategorija: " + cat);
             if (pts < 0 || pts > c.getMaxPoints())
                 throw new IllegalArgumentException("Poeni za '" + cat + "' moraju biti u [0," + c.getMaxPoints() + "]");
             enr.setPoints(cat, pts);
@@ -132,7 +132,7 @@ public class EIndexService {
 
     public Map<String, Integer> viewPoints(String studentUsername, String subjectName) {
         Subject subj = state.subjects.get(subjectName);
-        if (subj == null) throw new IllegalArgumentException("Nepostojeći predmet");
+        if (subj == null) throw new IllegalArgumentException("Nepostojeci predmet");
         Enrollment e = state.enrollments.getOrDefault(studentUsername, Collections.emptyMap()).get(subjectName);
         Map<String, Integer> result = new LinkedHashMap<>();
         for (Category c : subj.getCategories()) {
@@ -150,7 +150,7 @@ public class EIndexService {
             this.subjectName = subjectName; this.total = total; this.passed = passed; this.grade = grade;
         }
         @Override public String toString() {
-            return subjectName + ": " + total + "p, ocena " + grade + (passed ? " (položen)" : " (nije položen)");
+            return subjectName + ": " + total + "p, ocena " + grade + (passed ? " (polozen)" : " (nije polozen)");
         }
     }
 

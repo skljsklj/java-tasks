@@ -13,9 +13,9 @@ JMBG universal: 0101000700011
 Funkcionalnosti
 
 - Logovanje na osnovu `users.txt` (`username:password:role`). Na prvom pokretanju kreira se `admin:admin:admin` ako ne postoji.
-- Administrator: dodavanje admina, dodavanje studenata (validacija indeksa i JMBG), dodavanje predmeta sa kategorijama (zbir max=100, min<=max), dodeljivanje predmeta studentu, ažuriranje poena.
-- Student: pregled poena po kategorijama, pregled položenih/nepoloženih i ocena.
-- Čuvanje stanja (`state.ser`) pri gašenju servera i na zahtev.
+- Administrator: dodavanje admina, dodavanje studenata (validacija indeksa i JMBG), dodavanje predmeta sa kategorijama (zbir max=100, min<=max), dodeljivanje predmeta studentu, azuriranje poena.
+- Student: pregled poena po kategorijama, pregled polozenih/nepolozenih i ocena.
+- Cuvanje stanja (`state.ser`) pri gasenju servera i na zahtev.
 
 Napomene
 

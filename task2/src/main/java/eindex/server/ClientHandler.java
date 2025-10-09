@@ -56,9 +56,16 @@ public class ClientHandler implements Runnable {
                     String u = (String) d.get("username");
                     String p = (String) d.get("password");
                     String r = (String) d.get("role");
-                    Role role = "admin".equalsIgnoreCase(r) ? Role.ADMIN : Role.STUDENT;
+                    Role role;
+                    if ("admin".equalsIgnoreCase(r)) {
+                        role = Role.ADMIN;
+                    } else if ("student".equalsIgnoreCase(r)) {
+                        role = Role.STUDENT;
+                    } else {
+                        return Response.error("Neispravna uloga (dozvoljeno: admin/student)");
+                    }
                     boolean ok = service.authenticate(u, p, role);
-                    return ok ? Response.ok("Prijava uspešna", null) : Response.error("Neispravni kredencijali");
+                    return ok ? Response.ok("Prijava uspesna", null) : Response.error("Neispravni kredencijali");
                 }
                 case ADD_ADMIN: {
                     String u = (String) d.get("username");
@@ -95,14 +102,14 @@ public class ClientHandler implements Runnable {
                     String username = (String) d.get("username");
                     String subject = (String) d.get("subject");
                     service.assignStudentToSubject(username, subject);
-                    return Response.ok("Student pridružen predmetu", null);
+                    return Response.ok("Student pridruzen predmetu", null);
                 }
                 case UPDATE_POINTS: {
                     String username = (String) d.get("username");
                     String subject = (String) d.get("subject");
                     @SuppressWarnings("unchecked") Map<String, Integer> pts = (Map<String, Integer>) d.get("points");
                     service.updatePoints(username, subject, pts);
-                    return Response.ok("Poeni ažurirani", null);
+                    return Response.ok("Poeni azurirani", null);
                 }
                 case VIEW_POINTS: {
                     String username = (String) d.get("username");
@@ -138,7 +145,7 @@ public class ClientHandler implements Runnable {
             }
             return Response.error("Nepoznata akcija");
         } catch (Exception e) {
-            return Response.error("Greška: " + e.getMessage());
+            return Response.error("Greska: " + e.getMessage());
         }
     }
 }

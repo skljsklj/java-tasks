@@ -31,6 +31,10 @@ public class Client {
             String password = sc.nextLine().trim();
             System.out.print("Uloga (admin/student): ");
             String role = sc.nextLine().trim();
+            while (!(role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("student"))) {
+                System.out.print("Neispravna uloga. Unesite 'admin' ili 'student': ");
+                role = sc.nextLine().trim();
+            }
 
             Request login = new Request(Action.LOGIN);
             login.put("username", username);
@@ -40,7 +44,7 @@ public class Client {
             out.flush();
             Response resp = (Response) in.readObject();
             if (!resp.isSuccess()) {
-                System.out.println("Prijava neuspešna: " + resp.getMessage());
+                System.out.println("Prijava neuspesna: " + resp.getMessage());
                 return;
             }
             boolean admin = role.equalsIgnoreCase("admin");
@@ -123,7 +127,7 @@ public class Client {
                         if (pp.length == 2) {
                             pts.put(pp[0].trim(), Integer.parseInt(pp[1].trim()));
                         } else {
-                            System.out.println("Pogrešan format, pokušajte ponovo");
+                            System.out.println("Pogresan format, pokusajte ponovo");
                         }
                     }
                     Request r = new Request(Action.UPDATE_POINTS);
@@ -159,7 +163,7 @@ public class Client {
                             }
                         }
                     } else {
-                        System.out.println((resp.isSuccess()?"":"GREŠKA: ") + resp.getMessage());
+                        System.out.println((resp.isSuccess()?"":"GREsKA: ") + resp.getMessage());
                     }
                     break;
                 }
@@ -183,7 +187,7 @@ public class Client {
         while (true) {
             System.out.println("\n--- STUDENT MENI ---");
             System.out.println("1) Pregled poena po kategorijama za predmet");
-            System.out.println("2) Pregled položenih/nepoloženih i ocena");
+            System.out.println("2) Pregled polozenih/nepolozenih i ocena");
             System.out.println("0) Izlaz");
             System.out.print("Izbor: ");
             String choice = sc.nextLine().trim();
@@ -223,6 +227,6 @@ public class Client {
     }
 
     private static void printResp(Response resp) {
-        System.out.println((resp.isSuccess() ? "OK: " : "GREŠKA: ") + resp.getMessage());
+        System.out.println((resp.isSuccess() ? "OK: " : "GREsKA: ") + resp.getMessage());
     }
 }
