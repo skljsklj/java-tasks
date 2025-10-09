@@ -6,7 +6,6 @@ import eindex.model.Subject;
 import eindex.model.User;
 import eindex.model.Enrollment;
 import eindex.model.Category;
-import eindex.util.JsonUtil;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +27,6 @@ import org.w3c.dom.NodeList;
 public class DataStore {
     private final Path usersPath;
     private final Path stateSerPath;
-    private final Path stateJsonPath;
     private final Path stateXmlPath;
 
     public static class State implements Serializable {
@@ -40,7 +38,6 @@ public class DataStore {
     public DataStore(Path baseDir) {
         this.usersPath = baseDir.resolve("users.txt");
         this.stateSerPath = baseDir.resolve("state.ser");
-        this.stateJsonPath = baseDir.resolve("state.json");
         this.stateXmlPath = baseDir.resolve("state.xml");
     }
 
@@ -115,92 +112,7 @@ public class DataStore {
                 }
             } catch (Exception ignored) {}
         }
-        // Migration from prior JSON (if exists)
-        if (Files.exists(stateJsonPath)) {
-            try {
-                State s = loadFromJson(stateJsonPath);
-                try { writeXml(s); } catch (Exception ignored) {}
-                return s;
-            } catch (Exception ignored) {}
-        }
         return new State();
-    }
-
-    @SuppressWarnings("unchecked")
-    private State loadFromJson(Path jsonPath) throws IOException {
-        State state = new State();
-        String json = Files.readString(jsonPath, StandardCharsets.UTF_8);
-        Object rootObj = JsonUtil.parse(json);
-        if (!(rootObj instanceof Map)) return state;
-        Map<String, Object> root = (Map<String, Object>) rootObj;
-
-        Object students = root.get("students");
-        if (students instanceof List) {
-            for (Object o : (List<Object>) students) {
-                if (!(o instanceof Map)) continue;
-                Map<String, Object> m = (Map<String, Object>) o;
-                String fn = asString(m.get("firstName"));
-                String ln = asString(m.get("lastName"));
-                String idx = asString(m.get("indexNumber"));
-                String jmbg = asString(m.get("jmbg"));
-                String un = asString(m.get("username"));
-                if (un != null) state.students.put(un, new Student(fn, ln, idx, jmbg, un));
-            }
-        }
-
-        Object subjects = root.get("subjects");
-        if (subjects instanceof List) {
-            for (Object o : (List<Object>) subjects) {
-                if (!(o instanceof Map)) continue;
-                Map<String, Object> m = (Map<String, Object>) o;
-                String name = asString(m.get("name"));
-                List<Category> catList = new ArrayList<>();
-                Object cats = m.get("categories");
-                if (cats instanceof List) {
-                    for (Object co : (List<Object>) cats) {
-                        if (!(co instanceof Map)) continue;
-                        Map<String, Object> cm = (Map<String, Object>) co;
-                        String cn = asString(cm.get("name"));
-                        int max = asInt(cm.get("maxPoints"));
-                        int min = asInt(cm.get("minRequired"));
-                        catList.add(new Category(cn, max, min));
-                    }
-                }
-                if (name != null) state.subjects.put(name, new Subject(name, catList));
-            }
-        }
-
-        Object enrollments = root.get("enrollments");
-        if (enrollments instanceof List) {
-            for (Object o : (List<Object>) enrollments) {
-                if (!(o instanceof Map)) continue;
-                Map<String, Object> m = (Map<String, Object>) o;
-                String user = asString(m.get("studentUsername"));
-                String subj = asString(m.get("subjectName"));
-                Enrollment en = new Enrollment(user, subj);
-                Map<String, Integer> pts = new HashMap<>();
-                Object pb = m.get("pointsByCategory");
-                if (pb instanceof Map) {
-                    Map<String, Object> pm = (Map<String, Object>) pb;
-                    for (Map.Entry<String, Object> e : pm.entrySet()) {
-                        pts.put(e.getKey(), asInt(e.getValue()));
-                    }
-                }
-                for (Map.Entry<String, Integer> e : pts.entrySet()) en.setPoints(e.getKey(), e.getValue());
-                state.enrollments.computeIfAbsent(user, k -> new HashMap<>()).put(subj, en);
-            }
-        }
-
-        // After migrating, try to persist to .ser for future runs
-        try { save(state); } catch (IOException ignored) {}
-        return state;
-    }
-
-    private static String asString(Object o) { return o == null ? null : String.valueOf(o); }
-    private static int asInt(Object o) {
-        if (o instanceof Number) return ((Number) o).intValue();
-        if (o == null) return 0;
-        return Integer.parseInt(String.valueOf(o));
     }
 
     // XML helpers

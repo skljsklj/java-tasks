@@ -27,6 +27,12 @@
     </student>
   </students>
   <subjects>
+    <subject name="Anal 2">
+      <category maxPoints="25" minRequired="12" name="T1"/>
+      <category maxPoints="25" minRequired="12" name="T2"/>
+      <category maxPoints="25" minRequired="12" name="Z1"/>
+      <category maxPoints="25" minRequired="12" name="Z2"/>
+    </subject>
     <subject name="OET">
       <category maxPoints="25" minRequired="12" name="Terorija 1"/>
       <category maxPoints="25" minRequired="12" name="Terorija 2"/>

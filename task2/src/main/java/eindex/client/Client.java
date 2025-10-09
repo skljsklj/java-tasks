@@ -227,6 +227,6 @@ public class Client {
     }
 
     private static void printResp(Response resp) {
-        System.out.println((resp.isSuccess() ? "OK: " : "GREsKA: ") + resp.getMessage());
+        System.out.println((resp.isSuccess() ? "OK: " : "GRESKA: ") + resp.getMessage());
     }
 }
